@@ -11,6 +11,9 @@ body.appendChild(quizContainer);
 
 let score = 0;
 
+let givenAns = [];
+let currectAns = [];
+
 const scoreBoard = document.createElement("div");
 scoreBoard.classList.add("scoreboard");
 const scoreHeading = document.createElement("h4");
@@ -23,8 +26,6 @@ body.appendChild(scoreBoard);
 
 const btn = document.createElement("input");
 
-let backendAns = [];
-
 const getQuizdata = function () {
   axios
     .get("https://5d76bf96515d1a0014085cf9.mockapi.io/quiz")
@@ -35,11 +36,9 @@ const getQuizdata = function () {
       quizContainer.appendChild(formContainer);
 
       responseData.map((item, i) => {
-        backendAns.push(item.options[item.answer - 1]);
         const question = document.createElement("h3");
         question.innerHTML = `Q${item.id}. ${item.question}`;
         formContainer.appendChild(question);
-        let answer = item.answer;
 
         item.options.map((option, j) => {
           const quizOptions = document.createElement("input");
@@ -57,11 +56,14 @@ const getQuizdata = function () {
           formContainer.appendChild(br);
           const br2 = document.createElement("br");
           formContainer.appendChild(br2);
-
-          // answer checking
+          //   currectAns.push(option[item.answer]);
+          currectAns.push(item.options[item.answer - 1]);
+          //   answer checking
           //   quizOptions.addEventListener("change", function (e) {
-          // let selectedAnswer;
-          // selectedAnswer = j + 1;
+          //     let selectedAnswer;
+          //     selectedAnswer = j + 1;
+          //     givenAns.push(selectedAnswer);
+          // answer = item.answer;
           // if (selectedAnswer === answer) {
           //   score++;
           // }
@@ -84,22 +86,35 @@ const getQuizdata = function () {
 
       btn.addEventListener("click", function (e) {
         e.preventDefault();
-        const selectedAnswer = document.querySelectorAll(
+        // const selectedAnswers = document.querySelectorAll(
+        //   "input[type=radio]:checked"
+        // );
+        // console.log("selectedAnswers", selectedAnswers);
+
+        // for (let i = 0; i < currectAns.length; i++) {
+        //   for (let j = 0; j < givenAns.length; j++) {
+        //     if (currectAns[i] == givenAns[j]) {
+        //       score++;
+        //       break;
+        //     }
+        //   }
+        // }
+
+        const allSelectedAnswers = document.querySelectorAll(
           "input[type=radio]:checked"
         );
-        console.log("selectedAnswer", Array.from(selectedAnswer));
 
-        for (let i = 0; i < backendAns.length; i++) {
-          for (let j = 0; j < selectedAnswer.length; j++) {
-            if (backendAns[i] === selectedAnswer[j].value) {
-              console.log("score increamented");
-              score++;
-            }
-          }
-        }
+        console.log("allSelectedAnswers", allSelectedAnswers);
+        let uniqueChars = [...new Set(currectAns)];
+        console.log("current answers", uniqueChars);
+
+        // console.log("given answers", givenAns);
+
         scoreresult.innerHTML = `${score} / 5`;
       });
-      console.log("backendAns", backendAns);
+
+      //   console.log(uniqueChars);
+      //   console.log("current answers", currectAns);
     })
     .catch((err) => {
       console.log(err);
