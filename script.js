@@ -10,6 +10,7 @@ quizContainer.classList.add("quizcontainer");
 body.appendChild(quizContainer);
 
 let score = 0;
+const checkItem = [];
 
 const scoreBoard = document.createElement("div");
 scoreBoard.classList.add("scoreboard");
@@ -84,11 +85,9 @@ const getQuizdata = function () {
 
       btn.addEventListener("click", function (e) {
         e.preventDefault();
-
         const selectedAnswer = document.getElementsByTagName("input");
         const selectRadio = [];
         const answerLength = selectedAnswer.length - 1;
-
         for (i = 0; i < answerLength; i++) {
           if (selectedAnswer[i].checked) {
             selectRadio.push(selectedAnswer[i].value);
@@ -96,28 +95,31 @@ const getQuizdata = function () {
             selectRadio.push("");
           }
         }
-
-        const h3 = document.querySelectorAll("h3");
         const chunkSize = 4;
+        let chunk;
+        var filtered;
         for (let i = 0; i < selectRadio.length; i += chunkSize) {
-          const chunk = selectRadio.slice(i, i + chunkSize);
-          console.log(chunk);
-          // do whatever
+          chunk = selectRadio.slice(i, i + chunkSize);
+          filtered = chunk.filter(function (el) {
+            return el != "";
+          });
+          filtered = filtered.toString();
+          checkItem.push(filtered);
         }
-        // console.log("selected radio", selectRadio);
+        console.log("selected answers", checkItem);
 
         for (let i = 0; i < backendAns.length; i++) {
-          if (backendAns[i] === selectRadio[i]) {
-            console.log("score increamented");
+          if (backendAns[i] === checkItem[i]) {
             score++;
           }
         }
+        console.log("score", score);
         scoreresult.innerHTML = `${score} / 5`;
       });
-      console.log("backendAns", backendAns);
+      console.log("backend answers", backendAns);
     })
     .catch((err) => {
-      console.log(err);
+      console.log("there is some error, Please try again", err);
     });
 };
 
