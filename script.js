@@ -58,8 +58,8 @@ const getQuizdata = function () {
           const br2 = document.createElement("br");
           formContainer.appendChild(br2);
 
-          // answer checking
-          //   quizOptions.addEventListener("change", function (e) {
+          // answer checking - this wont work | reason : when we click correct answer then incorrect then again correct, it will increase count
+          // quizOptions.addEventListener("change", function (e) {
           // let selectedAnswer;
           // selectedAnswer = j + 1;
           // if (selectedAnswer === answer) {
@@ -84,17 +84,32 @@ const getQuizdata = function () {
 
       btn.addEventListener("click", function (e) {
         e.preventDefault();
-        const selectedAnswer = document.querySelectorAll(
-          "input[type=radio]:checked"
-        );
-        console.log("selectedAnswer", Array.from(selectedAnswer));
+
+        const selectedAnswer = document.getElementsByTagName("input");
+        const selectRadio = [];
+        const answerLength = selectedAnswer.length - 1;
+
+        for (i = 0; i < answerLength; i++) {
+          if (selectedAnswer[i].checked) {
+            selectRadio.push(selectedAnswer[i].value);
+          } else {
+            selectRadio.push("");
+          }
+        }
+
+        const h3 = document.querySelectorAll("h3");
+        const chunkSize = 4;
+        for (let i = 0; i < selectRadio.length; i += chunkSize) {
+          const chunk = selectRadio.slice(i, i + chunkSize);
+          console.log(chunk);
+          // do whatever
+        }
+        // console.log("selected radio", selectRadio);
 
         for (let i = 0; i < backendAns.length; i++) {
-          for (let j = 0; j < selectedAnswer.length; j++) {
-            if (backendAns[i] === selectedAnswer[j].value) {
-              console.log("score increamented");
-              score++;
-            }
+          if (backendAns[i] === selectRadio[i]) {
+            console.log("score increamented");
+            score++;
           }
         }
         scoreresult.innerHTML = `${score} / 5`;
