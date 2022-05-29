@@ -5,9 +5,13 @@ const quizHeading = document.createElement("h2");
 quizHeading.innerHTML = "The Quiz App";
 body.appendChild(quizHeading);
 
+const flexContainer = document.createElement("div");
+flexContainer.classList.add("flexcontainer");
+body.appendChild(flexContainer);
+
 const quizContainer = document.createElement("div");
 quizContainer.classList.add("quizcontainer");
-body.appendChild(quizContainer);
+flexContainer.appendChild(quizContainer);
 
 let score = 0;
 const checkItem = [];
@@ -20,7 +24,7 @@ scoreBoard.appendChild(scoreHeading);
 const scoreresult = document.createElement("h4");
 scoreresult.innerHTML = `${score} / 5`;
 scoreBoard.appendChild(scoreresult);
-body.appendChild(scoreBoard);
+flexContainer.appendChild(scoreBoard);
 
 const btn = document.createElement("input");
 
@@ -40,7 +44,7 @@ const getQuizdata = function () {
         const question = document.createElement("h3");
         question.innerHTML = `Q${item.id}. ${item.question}`;
         formContainer.appendChild(question);
-        let answer = item.answer;
+        // let answer = item.answer;
 
         item.options.map((option, j) => {
           const quizOptions = document.createElement("input");
@@ -115,6 +119,8 @@ const getQuizdata = function () {
         }
         console.log("score", score);
         scoreresult.innerHTML = `${score} / 5`;
+
+        btn.disabled = true;
       });
       console.log("backend answers", backendAns);
     })

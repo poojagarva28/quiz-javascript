@@ -26,15 +26,17 @@ h3 {
   font-size: 18px;
   font-weight: 600;
 }
-
+.flexcontainer {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 80px;
+}
 .quizcontainer {
   padding: 30px;
   background-color: #2b3252;
-  width: 60%;
+  width: 55%;
+  margin-left: 10%;
   height: auto;
-  left: 50%;
-  position: absolute;
-  transform: translate(-50%, 0);
   border-radius: 10px;
 }
 
@@ -69,15 +71,24 @@ input[type="submit"]:hover {
   color: #fad744;
   border-color: #fad744;
 }
+input[type="submit"]:disabled,
+input[type="submit"][disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+input[type="submit"]:disabled:hover,
+input[type="submit"][disabled]:hover {
+  cursor: not-allowed;
+}
 
 .scoreboard {
   background-color: #fff;
   width: 200px;
   height: 300px;
   position: sticky;
-  top: 0;
-  float: right;
-  right: 4%;
+  margin-left: 20px;
+  top: 20px;
   padding: 30px;
   border-radius: 10px;
 }
