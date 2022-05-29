@@ -1,3 +1,6 @@
+// UNCOMMENT THE LINE NO.119 IF YOU WANT TO CONSOLE THE SELECTED RESULT
+// UNCOMMENT THE LINE NO.132 IF YOU WANT TO CHECK CORRECT RESULT FROM BACKEND
+
 const body = document.body;
 body.style.backgroundColor = "#54c3ef";
 
@@ -52,9 +55,9 @@ const getQuizdata = function () {
           quizOptions.type = "radio";
           quizOptions.required = true;
           quizOptions.name = `option for question ${item.id}`;
-          quizOptions.id = option;
+          quizOptions.id = option + i;
           const quizLabel = document.createElement("label");
-          quizLabel.setAttribute("for", option);
+          quizLabel.setAttribute("for", option + i);
           quizLabel.innerText = option;
           formContainer.appendChild(quizOptions);
           formContainer.appendChild(quizLabel);
@@ -63,7 +66,8 @@ const getQuizdata = function () {
           const br2 = document.createElement("br");
           formContainer.appendChild(br2);
 
-          // answer checking - this wont work | reason : when we click correct answer then incorrect then again correct, it will increase count
+          // BElOW COMMENTED CODE WON'T WORK | REASON : WHEN WE CLICK CORRECT ANSWER, THEN INCORRECT, THEN AGAIN CORRECT; IT WILL INCREASE COUNT
+          // answer checking -
           // quizOptions.addEventListener("change", function (e) {
           // let selectedAnswer;
           // selectedAnswer = j + 1;
@@ -99,6 +103,8 @@ const getQuizdata = function () {
             selectRadio.push("");
           }
         }
+
+        // get every questions' options
         const chunkSize = 4;
         let chunk;
         var filtered;
@@ -110,19 +116,20 @@ const getQuizdata = function () {
           filtered = filtered.toString();
           checkItem.push(filtered);
         }
-        console.log("selected answers", checkItem);
+        // console.log("selected answers", checkItem);
 
+        // checking selected answers with correct backend answers
         for (let i = 0; i < backendAns.length; i++) {
           if (backendAns[i] === checkItem[i]) {
-            score++;
+            score++; // increasing count if answer is correct
           }
         }
-        console.log("score", score);
+        // console.log("score", score);
         scoreresult.innerHTML = `${score} / 5`;
 
         btn.disabled = true;
       });
-      console.log("backend answers", backendAns);
+      // console.log("backend answers", backendAns);
     })
     .catch((err) => {
       console.log("there is some error, Please try again", err);
